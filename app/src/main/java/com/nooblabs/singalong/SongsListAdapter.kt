@@ -12,10 +12,11 @@ import kotlinx.android.synthetic.main.song_item_layout.view.*
 
 class SongsListAdapter(var context: Context) : RecyclerView.Adapter<SongsListAdapter.VH>(){
     inner class VH(itemView: View): RecyclerView.ViewHolder(itemView){
-        var path = ""
+        var mSong: Song? = null
         init {
             itemView.setOnClickListener {
-                Toast.makeText(context, path, Toast.LENGTH_SHORT).show()
+                if(mSong != null)
+                    MusicPlayer.play(context,mSong)
             }
         }
 
@@ -56,9 +57,7 @@ class SongsListAdapter(var context: Context) : RecyclerView.Adapter<SongsListAda
                 val path = mCursor!!.getString(pathColumn)
                 val song = Song(title = title, artist = artist, duration = Duration(duration), path = path)
                 holder.itemView.title.text = song.title
-//                holder.itemView.artist.text = song.artist
-//                holder.itemView.duration.text = song.duration.toString()
-                holder.path = song.path
+                holder.mSong = song
             }
         }
 
