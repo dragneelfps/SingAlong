@@ -1,4 +1,4 @@
-package com.nooblabs.singalong
+package com.nooblabs.singalong.Fragments
 
 import android.database.Cursor
 import android.os.Bundle
@@ -12,10 +12,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import com.nooblabs.singalong.Adapters.SongsListAdapter
+import com.nooblabs.singalong.R
 import kotlinx.android.synthetic.main.songs_fragment_layout.view.*
 
 
-class SongsFragment: Fragment(), LoaderManager.LoaderCallbacks<Cursor>{
+class SongsFragment : Fragment(), LoaderManager.LoaderCallbacks<Cursor> {
 
     companion object {
         val TAG = javaClass.simpleName
@@ -26,14 +28,14 @@ class SongsFragment: Fragment(), LoaderManager.LoaderCallbacks<Cursor>{
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        Log.d(TAG,"Fragment onCreate Called")
+        Log.d(TAG, "Fragment onCreate Called")
         mAdapter = SongsListAdapter(context!!)
 
-        loaderManager.initLoader(SONGS_READ_ID, null, this )
+        loaderManager.initLoader(SONGS_READ_ID, null, this)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        Log.d(TAG,"Fragment view created")
+        Log.d(TAG, "Fragment view created")
         val view = inflater.inflate(R.layout.songs_fragment_layout, container, false)
         return view
     }
@@ -43,7 +45,7 @@ class SongsFragment: Fragment(), LoaderManager.LoaderCallbacks<Cursor>{
     }
 
     override fun onLoadFinished(loader: Loader<Cursor>, data: Cursor?) {
-        if(data != null && data.count > 0){
+        if (data != null && data.count > 0) {
             mAdapter.setData(data)
         }
     }

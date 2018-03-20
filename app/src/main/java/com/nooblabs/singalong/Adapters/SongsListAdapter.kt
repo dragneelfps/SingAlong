@@ -1,4 +1,4 @@
-package com.nooblabs.singalong
+package com.nooblabs.singalong.Adapters
 
 import android.content.Context
 import android.database.Cursor
@@ -7,32 +7,36 @@ import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import com.nooblabs.singalong.Models.Duration
+import com.nooblabs.singalong.Models.Song
+import com.nooblabs.singalong.MusicPlayer
+import com.nooblabs.singalong.R
 import kotlinx.android.synthetic.main.song_item_layout.view.*
 
-class SongsListAdapter(var context: Context) : RecyclerView.Adapter<SongsListAdapter.VH>(){
-    inner class VH(itemView: View): RecyclerView.ViewHolder(itemView){
+class SongsListAdapter(var context: Context) : RecyclerView.Adapter<SongsListAdapter.VH>() {
+    inner class VH(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var mSong: Song? = null
+
         init {
             itemView.setOnClickListener {
-                if(mSong != null)
-                    MusicPlayer.play(context,mSong)
+                if (mSong != null)
+                    MusicPlayer.getInstance().play(context, mSong!!)
             }
         }
 
     }
 
-    var mCursor : Cursor? = null
+    var mCursor: Cursor? = null
 
-    fun setData(cursor: Cursor?){
+    fun setData(cursor: Cursor?) {
         mCursor = cursor
         notifyDataSetChanged()
     }
 
     override fun getItemCount(): Int {
-        if(mCursor != null){
+        if (mCursor != null) {
             return mCursor!!.count
-        }else{
+        } else {
             return -1
         }
     }
@@ -44,8 +48,8 @@ class SongsListAdapter(var context: Context) : RecyclerView.Adapter<SongsListAda
 
     override fun onBindViewHolder(holder: VH, position: Int) {
 
-        if(mCursor != null){
-            if(mCursor!!.moveToPosition(position)){
+        if (mCursor != null) {
+            if (mCursor!!.moveToPosition(position)) {
                 val titleColumn = mCursor!!.getColumnIndex(MediaStore.Audio.AudioColumns.TITLE)
                 val artistColumn = mCursor!!.getColumnIndex(MediaStore.Audio.AudioColumns.ARTIST)
                 val durationColumn = mCursor!!.getColumnIndex(MediaStore.Audio.AudioColumns.DURATION)
