@@ -21,6 +21,6 @@ class MusicPlayer {
     fun play(context: Context, song: Song) {
         val player = MusicPlayerHelper.getInstance(context)
         player.start(Any(), song.path)
-        MusicNotificationHelper.getInstance(context).showNotification(song)
+        MusicNotificationHelper.getInstance(context).showNotification(song, true)
     }
 }

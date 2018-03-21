@@ -20,11 +20,18 @@ class MusicControlBroadcastReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context, intent: Intent) {
         Log.d(TAG, "Received control.")
         val player = MusicPlayerHelper.getInstance(context)
+        val notifHelper = MusicNotificationHelper.getInstance(context)
         val action = intent.action
         Log.d(TAG, "action : $action")
         when (action) {
-            ACTION_PAUSE -> player.pauseSong()
-            ACTION_RESUME -> player.resumeSong()
+            ACTION_PAUSE -> {
+                player.pauseSong()
+                notifHelper.showNotification(notifHelper.mCurrentSong, false)
+            }
+            ACTION_RESUME -> {
+                player.resumeSong()
+                notifHelper.showNotification(notifHelper.mCurrentSong, true)
+            }
             ACTION_STOP -> {
                 player.releaseResources()
                 val notifManager = context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
